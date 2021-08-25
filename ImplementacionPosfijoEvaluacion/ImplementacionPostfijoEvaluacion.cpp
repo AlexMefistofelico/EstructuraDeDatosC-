@@ -100,6 +100,25 @@ public:
 	}
 };
 
+//funcion para mostrar paso por paso
+void reporteEstado(Pila p,Cola c){
+    Pila paux = p;
+    Cola caux = c;
+
+    cout<<"Pila: ";
+    string pp = "";
+
+    while(!paux.vacio())
+        pp = paux.pop()+pp;
+
+    cout<<pp<<endl<<"Cola: ";
+    while(!caux.vacio())
+        cout<<caux.sacar();
+
+    cout<<endl;
+}
+
+
 class ImplementacionPostfijoEvalucion{
 public:
 
@@ -154,6 +173,8 @@ public:
                 pila.pop();
 
                 break;
+
+            case '=':       // para expresion de ejemplo....
             case '+':
             case '-':
             case '*':
@@ -169,6 +190,8 @@ public:
                 cola.insertar(x);//directo a posfijo
 
             }
+
+            reporteEstado(pila,cola); // funcion para mostrar estados pila y cola por cada iteracion.
 
         }
 
@@ -239,8 +262,11 @@ int main(int argc,char *argv[],char **env){
     string exp ;
     ImplementacionPostfijoEvalucion obj;
 
+    exp = "G=((A-B)*C)+(D/(E^F))";
+
+
 //    exp = "((b+((b^2-a*c)^(1/2)))/(d*a))/((b+c)/(c+b*d))";
-    exp = "((3.0+((3.0^2-1.6*5)^(1/2)))/(15.15*1.6))/((3.0+5)/(5+3.0*15.15))";
+//    exp = "((3.0+((3.0^2-1.6*5)^(1/2)))/(15.15*1.6))/((3.0+5)/(5+3.0*15.15))";
 
     Cola colainfijo = obj.aCola(exp);
     Cola colaPosfijo = obj.aPosfijo(colainfijo);
