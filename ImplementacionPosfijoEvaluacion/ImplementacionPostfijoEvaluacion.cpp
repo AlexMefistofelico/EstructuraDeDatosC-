@@ -100,25 +100,6 @@ public:
 	}
 };
 
-//funcion para mostrar paso por paso
-void reporteEstado(Pila p,Cola c){
-    Pila paux = p;
-    Cola caux = c;
-
-    cout<<"Pila: ";
-    string pp = "";
-
-    while(!paux.vacio())
-        pp = paux.pop()+pp;
-
-    cout<<pp<<endl<<"Cola: ";
-    while(!caux.vacio())
-        cout<<caux.sacar();
-
-    cout<<endl;
-}
-
-
 class ImplementacionPostfijoEvalucion{
 public:
 
@@ -160,26 +141,37 @@ public:
 
         string x;
 
+        int parentIzq=0,parentDer=0; //para contar
+        bool esOPerando=true;
+
         while(!colainf.vacio()){
             x = colainf.sacar();
 
             switch(x[0]){
             case '(':
+                parentIzq++;
                 pila.push(x);
                 break;
             case ')':
-                while(pila.enTope()!="(")
+                parentDer++;
+
+                while(!pila.vacio() && pila.enTope()!="(")
                     cola.insertar(pila.pop());
-                pila.pop();
+                if(!pila.vacio())
+                    pila.pop();
 
                 break;
-
-            case '=':       // para expresion de ejemplo....
             case '+':
             case '-':
             case '*':
             case '/':
             case '^':
+                if(esOPerando){
+                    cerr<<"falta Operando."<<endl;
+                    return nullptr;
+                }
+
+                esOPerando = true;
 
                 while(!pila.vacio() && prio(x[0])<=prio(pila.enTope()[0]))
                     cola.insertar(pila.pop());//a posfijo....
@@ -188,11 +180,24 @@ public:
                 break;
             default:
                 cola.insertar(x);//directo a posfijo
-
+                //bloque adicionada para
+                if(!esOPerando){
+                    cerr<<"falta Operador."<<endl;
+                    return nullptr;
+                }
+                esOPerando = false;
             }
+        }
 
-            reporteEstado(pila,cola); // funcion para mostrar estados pila y cola por cada iteracion.
-
+        if(esOPerando){
+            cerr<<"falta Operando"<<endl;
+            return nullptr;
+        }else if(parentIzq<parentDer){
+            cerr<<"falta parentesis IZQ."<<endl;
+            return nullptr;
+        }else if(parentDer<parentIzq){
+            cerr<<"falta parentesis DER."<<endl;
+            return nullptr;
         }
 
         while(!pila.vacio())
@@ -254,28 +259,38 @@ public:
 
 };
 
-
-
+Cola aCola(string exp){
+    Cola cola (exp.size());
+    for(int i=0;i<exp.size();i++){
+        cola.insertar(string(1,exp[i]));
+    }
+    return cola;
+}
 
 int main(int argc,char *argv[],char **env){
 
     string exp ;
     ImplementacionPostfijoEvalucion obj;
 
-    exp = "G=((A-B)*C)+(D/(E^F))";
+   // exp = "((b+((b^2-a*c)^(1+2)))/(d*a))/((b+c)/(c+b*d))";
 
+    exp = "((3.0+((3.0^2-1.6*5)^(1/2)))/(15.15*1.6))/((3.0+5)/(5+3.0*15.15))";
 
-//    exp = "((b+((b^2-a*c)^(1/2)))/(d*a))/((b+c)/(c+b*d))";
-//    exp = "((3.0+((3.0^2-1.6*5)^(1/2)))/(15.15*1.6))/((3.0+5)/(5+3.0*15.15))";
+    exp = "(134)";
+    exp = "(1+44)";
+    exp = "(1+3-)";
+    exp = "(1+-4)";
+    exp = "(1+4*(5+3)";
+    exp = "(1+4*5+3))";
 
-    Cola colainfijo = obj.aCola(exp);
+    Cola colainfijo = aCola(exp);//uno a uno...
     Cola colaPosfijo = obj.aPosfijo(colainfijo);
 
 
     cout<<"Infijo: "<<exp<<endl;
     cout<<"Posfijo: ";
 
-    Cola colaPosfijoEvalua = colaPosfijo;
+    //Cola colaPosfijoEvalua = colaPosfijo;
 
     while(!colaPosfijo.vacio()){
         cout<<colaPosfijo.sacar()<<" ";
@@ -285,7 +300,7 @@ int main(int argc,char *argv[],char **env){
 
     cout<<endl;
 
-    cout<<"Evaluacion: "<<obj.evaluar(colaPosfijoEvalua)<<endl;
+//    cout<<"Evaluacion: "<<obj.evaluar(colaPosfijoEvalua)<<endl;
 
 
     return EXIT_SUCCESS;
