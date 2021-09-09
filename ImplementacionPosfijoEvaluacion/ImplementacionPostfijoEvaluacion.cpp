@@ -277,11 +277,11 @@ int main(int argc,char *argv[],char **env){
     exp = "((3.0+((3.0^2-1.6*5)^(1/2)))/(15.15*1.6))/((3.0+5)/(5+3.0*15.15))";
 
     exp = "(134)";
-    exp = "(1+44)";
-    exp = "(1+3-)";
-    exp = "(1+-4)";
-    exp = "(1+4*(5+3)";
-    exp = "(1+4*5+3))";
+//    exp = "(1+44)";
+//    exp = "(1+3-)";
+//    exp = "(1+-4)";
+    exp = "(1+4*(5+3))";
+//    exp = "(1+4*5+3))";
 
     Cola colainfijo = aCola(exp);//uno a uno...
     Cola colaPosfijo = obj.aPosfijo(colainfijo);
