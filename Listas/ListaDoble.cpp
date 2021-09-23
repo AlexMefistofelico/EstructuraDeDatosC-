@@ -143,11 +143,65 @@ class Lista{
 	bool vacio(){
 		return raizi==nullptr;
 	}
+    /**
+    Dadso una LIsta Doblemente en lazado con "N" datos, realizar un
+    Pseudo Codigo modifique todos los datos a su inmediato valor superior
+    de 3 de la lista propocionada
+    //SOLUCION
+    //resul.addD: agregar al final de mi lista "resul"
+    Lista generaMulti3(){
+        Lista resul;
+
+        Nodo aux =>raizi;
+
+        MIENTRAS(aux!=NULO){
+            resul.addD(REDONDEAR((aux->dato+1)/3.0)*3);
+            aux =>aux->sig;
+        }
+        RETORNAR resul;
+    }
+
+    */
+
+    //SOLUCION CODIGO
+	Lista generaMulti3(){
+		Lista resul;
+
+		Nodo *aux = raizi;
+
+		while(aux!=nullptr){
+            resul.addD(round((double)(aux->dato+1)/3.0)*3);
+			aux = aux->sig;
+		}
+        return resul;
+    }
+
 };
 
 int main(int argc,char *argv[],char **env){
 
+//    (11/3) = 3.55
 
+  /*
+    round (34.3) = 34
+    round (34.53) = 35
+    round (4.51) = 5
+    */
+
+    Lista l;
+
+    l.addD(5);//1
+    l.addD(8);
+    l.addD(10);
+    l.addD(9);
+
+    l.mostrarI();
+
+    Lista resul = l.generaMulti3();
+
+    resul.mostrarI();
+
+/*
     Lista l;
 
     l.addOrden(1);
@@ -190,6 +244,6 @@ int main(int argc,char *argv[],char **env){
   //  l.eliUltimo();
     l.mostrarI();
     l.mostrarD();
-
+*/
     return EXIT_SUCCESS;
 }

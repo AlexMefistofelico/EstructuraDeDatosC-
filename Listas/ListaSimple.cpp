@@ -117,12 +117,97 @@ public:
 
 };
 
+/**
+Dadas 2 listas Simplemente Enlazadas con "N" y "M" datos
+en orden , realizar un Pseudo Código que una ambas listas
+en una lista ordenada.
 
+Lista unirListas(Lista l1 ,Lista l2){
+    Lista listaResul;
+
+    Nodo aux1 =>l1.raiz;
+    Nodo aux2 =>l2.raiz;
+
+    MIENTRAS(aux1!=NULO && aux2!=NULO){
+        SI(aux1->dato < aux2->dato){
+            listaResul.addFinal(aux1->dato);
+            aux1 =>aux1->sig;
+        }CASO_CONTRARIO{//si es mayor o igual
+            listaResul.addFinal(aux2->dato);
+            aux2 =>aux2->sig;
+        }
+    }
+    MIENTRAS(aux1!=NULO ){
+        listaResul.addFinal(aux1->dato);
+        aux1 =>aux1->sig;
+    }
+    MIENTRAS(aux2!=NULO){
+        listaResul.addFinal(aux2->dato);
+        aux2 =>aux2->sig;
+    }
+    RETORNAR listaResul;
+}
+*/
+//addFinal(int) : funcion que agrega datos al final de mi lista(listaResul)....
+
+
+
+Lista unirListas(Lista l1/*l1 ordenada*/,Lista l2/*l1 ordenada*/){
+    Lista listaResul;
+    Nodo *aux1 = l1.raiz;
+    Nodo *aux2 = l2.raiz;
+
+    while(aux1!=nullptr && aux2!=nullptr){
+        if(aux1->dato < aux2->dato){
+            listaResul.addFinal(aux1->dato);
+            aux1 = aux1->sig;
+        }else{//si es mayor o igual
+            listaResul.addFinal(aux2->dato);
+            aux2 = aux2->sig;
+        }
+    }
+    while(aux1!=nullptr ){
+        listaResul.addFinal(aux1->dato);
+        aux1 = aux1->sig;
+    }
+    while(aux2!=nullptr){
+        listaResul.addFinal(aux2->dato);
+        aux2 = aux2->sig;
+    }
+    return listaResul;
+}
 
 int main(int argc,char *argv[],char **env){
 
-    Lista l;
+    /*
+    raiz->1->4->6->7->nullptr"
+    raiz->1->6->10->nullptr
+*/
+    Lista l1;
+    Lista l2;
+
+    l1.addFinal(1);
+    l1.addFinal(4);
+    l1.addFinal(6);
+    l1.addFinal(7);
+    l1.addFinal(17);
+    l1.addFinal(72);
+
+    l2.addFinal(-11);
+    l2.addFinal(-1);
+    l2.addFinal(1);
+    l2.addFinal(1);
+    l2.addFinal(6);
+    l2.addFinal(10);
+
+    l1.mostrar();
+    l2.mostrar();
+
+    Lista l3 = unirListas(l1,l2);
+    l3.mostrar();
 /*
+    Lista l;
+
 		l.add(19);
 		l.add(1);
 		l.add(17);
@@ -143,7 +228,7 @@ int main(int argc,char *argv[],char **env){
 		l.add(2);
 		l.add(18);
 		l.add(14);
-*/
+
 		l.addOrden(19);
 		l.addOrden(1);
 		l.addOrden(17);
@@ -184,6 +269,6 @@ int main(int argc,char *argv[],char **env){
 		//l.ordenar();
 		l.mostrar();
 
-
+*/
     return EXIT_SUCCESS;
 }
