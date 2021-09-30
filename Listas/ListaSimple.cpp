@@ -6,47 +6,49 @@
 #define nullptrptr NULL
 using namespace std;
 
+template<class T>
 class Nodo{
 public:
     Nodo *sig;
-	int dato;
+	T dato;
 
-	Nodo(int d){
+	Nodo(T d){
 		dato = d;
 		sig = nullptr;
 	}
 
 };
 
+template<class T>
 class Lista{
 public:
-    Nodo *raiz;
+    Nodo<T> *raiz;
 
 	Lista(){
 		raiz = nullptr;
 	}
 
-	void add(int d){
-		Nodo *nuevo = new Nodo(d);
+	void add(T d){
+		Nodo<T> *nuevo = new Nodo<T>(d);
 		nuevo->sig = raiz;
 		raiz = nuevo;
 	}
 
-	void addFinal(int d){
-		Nodo *aux = raiz;
+	void addFinal(T d){
+		Nodo<T> *aux = raiz;
 		if(aux==nullptr){
-			raiz  = new Nodo(d);
+			raiz  = new Nodo<T>(d);
 		}else{
 			while(aux->sig != nullptr)
 			aux = aux->sig;
-			aux->sig = new Nodo(d);
+			aux->sig = new Nodo<T>(d);
 		}
 	}
 
-	void addOrden(int d){
-		Nodo *nuevo = new Nodo(d);
-		Nodo *pt = nullptr;
-		Nodo *pt1 = raiz;
+	void addOrden(T d){
+		Nodo<T> *nuevo = new Nodo<T>(d);
+		Nodo<T> *pt = nullptr;
+		Nodo<T> *pt1 = raiz;
 
 		while(pt1!=nullptr&&d>pt1->dato){//solo cambiar <
 			pt = pt1;
@@ -62,9 +64,9 @@ public:
 			pt->sig = nuevo;
 	}
 
-	void eliminar(int d){
-		Nodo *pt = nullptr;
-		Nodo *pt1 = raiz;
+	void eliminar(T d){
+		Nodo<T> *pt = nullptr;
+		Nodo<T> *pt1 = raiz;
 		while(pt1!=nullptr&&d!=pt1->dato){
 			pt = pt1;
 			pt1 = pt1->sig;
@@ -77,8 +79,8 @@ public:
 			pt->sig = pt1->sig;
 	}
 
-	void modificar(int da,int dn){
-		Nodo *aux = raiz;
+	void modificar(T da,T dn){
+		Nodo<T> *aux = raiz;
 		while(aux!=nullptr){
 			if(aux->dato==da){
 				aux->dato = dn;
@@ -91,10 +93,10 @@ public:
 	}
 
 	void ordenar(){
-		for(Nodo *i = raiz;i->sig!=nullptr;i=i->sig){
-			for(Nodo *j=i->sig;j!=nullptr;j=j->sig){
+		for(Nodo<T> *i = raiz;i->sig!=nullptr;i=i->sig){
+			for(Nodo<T> *j=i->sig;j!=nullptr;j=j->sig){
 				if(i->dato > j->dato){
-                    int tmp = i->dato;
+                    T tmp = i->dato;
                     i->dato = j->dato;
                     j->dato = tmp;
 				}
@@ -104,7 +106,7 @@ public:
 
 	void mostrar(){
 		cout<< "raiz->";
-		Nodo *aux = raiz;
+		Nodo<T> *aux = raiz;
 
 		while(aux!=nullptr){
 			cout<<aux->dato<<"->";
@@ -125,8 +127,8 @@ en una lista ordenada.
 Lista unirListas(Lista l1 ,Lista l2){
     Lista listaResul;
 
-    Nodo aux1 =>l1.raiz;
-    Nodo aux2 =>l2.raiz;
+    Nodo<T> aux1 =>l1.raiz;
+    Nodo<T> aux2 =>l2.raiz;
 
     MIENTRAS(aux1!=NULO && aux2!=NULO){
         SI(aux1->dato < aux2->dato){
@@ -148,14 +150,14 @@ Lista unirListas(Lista l1 ,Lista l2){
     RETORNAR listaResul;
 }
 */
-//addFinal(int) : funcion que agrega datos al final de mi lista(listaResul)....
+//addFinal(T) : funcion que agrega datos al final de mi lista(listaResul)....
 
 
-
-Lista unirListas(Lista l1/*l1 ordenada*/,Lista l2/*l1 ordenada*/){
-    Lista listaResul;
-    Nodo *aux1 = l1.raiz;
-    Nodo *aux2 = l2.raiz;
+template <class T>
+Lista<T> unirListas(Lista<T> l1/*l1 ordenada*/,Lista<T> l2/*l1 ordenada*/){
+    Lista<T> listaResul;
+    Nodo<T> *aux1 = l1.raiz;
+    Nodo<T> *aux2 = l2.raiz;
 
     while(aux1!=nullptr && aux2!=nullptr){
         if(aux1->dato < aux2->dato){
@@ -180,30 +182,49 @@ Lista unirListas(Lista l1/*l1 ordenada*/,Lista l2/*l1 ordenada*/){
 int main(int argc,char *argv[],char **env){
 
     /*
-    raiz->1->4->6->7->nullptr"
+    lista en 1000 segundos
+    raiz->1->2->3...............->1000->nullptr"
+
+    arbols en ln(1000) segundos 7seg.
+
     raiz->1->6->10->nullptr
 */
-    Lista l1;
-    Lista l2;
+    Lista<string> l1;
+    Lista<string> l2;
 
-    l1.addFinal(1);
-    l1.addFinal(4);
-    l1.addFinal(6);
-    l1.addFinal(7);
-    l1.addFinal(17);
-    l1.addFinal(72);
 
-    l2.addFinal(-11);
-    l2.addFinal(-1);
-    l2.addFinal(1);
-    l2.addFinal(1);
-    l2.addFinal(6);
-    l2.addFinal(10);
+    l1.addFinal("andrea");
+    l1.addFinal("beronica");
+    l1.addFinal("selena");
+    l1.addFinal("miguel");
+    l1.addFinal("neyser");
 
+    l2.addFinal("alex");
+    l2.addFinal("belen");
+    l2.addFinal("boris");
+    l2.addFinal("jose");
+    l2.addFinal("maria");
+    l2.addFinal("zulema");
+
+/*
+    l1.addFinal(1.33321);
+    l1.addFinal(4.33321);
+    l1.addFinal(6.33321);
+    l1.addFinal(7.33321);
+    l1.addFinal(17.33321);
+    l1.addFinal(72.33321);
+
+    l2.addFinal(-11.33321);
+    l2.addFinal(-1.33321);
+    l2.addFinal(1.33321);
+    l2.addFinal(1.33321);
+    l2.addFinal(6.33321);
+    l2.addFinal(10.33321);
+*/
     l1.mostrar();
     l2.mostrar();
 
-    Lista l3 = unirListas(l1,l2);
+    Lista<string> l3 = unirListas(l1,l2);
     l3.mostrar();
 /*
     Lista l;
