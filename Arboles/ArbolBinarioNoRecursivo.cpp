@@ -113,7 +113,7 @@ public:
 	}
 	~Arbol(){}
 
-	Nodo<T>* agregar(Nodo<T>* r,int d){
+	Nodo<T>* agregar(Nodo<T>* r,T d){
 		if (r==nullptr)
 		     r = new Nodo<T>(d);
 		else if (d>r->dato)
@@ -123,11 +123,11 @@ public:
 		return r;
 	}
 
-	void agregar(int d){
+	void agregar(T d){
 		raiz=agregar(raiz,d);
 	}
 
-	Nodo<T>* buscar(Nodo<T>* r, int clave){
+	Nodo<T>* buscar(Nodo<T>* r, T clave){
 		if (clave==r->dato)
 		    r=elinodo(r);
 		else if(clave>r->dato)
