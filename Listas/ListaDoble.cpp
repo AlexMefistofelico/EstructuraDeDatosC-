@@ -6,27 +6,29 @@
 
 using namespace std;
 
+template<class T>
 class Nodo{
 public:
-    Nodo *ant;
-	Nodo *sig;
-	int dato;
+    Nodo<T> *ant;
+	Nodo<T> *sig;
+	T dato;
 
-	Nodo(int d){
+	Nodo<T>(T d){
 		dato = d;
 		ant = sig = nullptr;
 	}
 };
 
+template<class T>
 class Lista{
     public:
-	Nodo *raizi,*raizd;
+	Nodo<T>* raizi, *raizd;
 	Lista(){
 		raizi = raizd = nullptr;
 	}
 
-	void addI(int d){
-		Nodo *nuevo = new Nodo(d);
+	void addI(T d){
+		Nodo<T> *nuevo = new Nodo<T>(d);
 		if(vacio())
 			raizi = raizd = nuevo;
 		else{
@@ -36,8 +38,8 @@ class Lista{
 		}
 	}
 
-	void addD(int d){
-		Nodo *nuevo = new Nodo(d);
+	void addD(T d){
+		Nodo<T> *nuevo = new Nodo<T>(d);
 		if(vacio())
 			raizi = raizd = nuevo;
 		else{
@@ -47,12 +49,12 @@ class Lista{
 		}
 	}
 
-	void addOrden(int d){
-		Nodo *nuevo = new Nodo(d);
+	void addOrden(T d){
+		Nodo<T> *nuevo = new Nodo<T>(d);
 		if(vacio())
 			raizi = raizd = nuevo;
 		else{
-			Nodo *pt = nullptr,*pt1 = raizi;
+			Nodo<T> *pt = nullptr,*pt1 = raizi;
 			while(pt1!=nullptr && d>pt1->dato){
 				pt = pt1;
 				pt1 = pt1->sig;
@@ -74,8 +76,8 @@ class Lista{
 		}
 	}
 
-	int eliPrimero(){
-		int dt = raizi->dato;
+	T eliPrimero(){
+		T dt = raizi->dato;
 		if(raizd==raizi)
 			raizi = raizd = nullptr;
 		else{
@@ -85,8 +87,8 @@ class Lista{
 		return dt;
 	}
 
-	int eliUltimo(){
-		int dt = raizd->dato;
+	T eliUltimo(){
+		T dt = raizd->dato;
 		if(raizd==raizi)
 			raizi = raizd = nullptr;
 		else{
@@ -96,8 +98,8 @@ class Lista{
 		return dt;
 	}
 
-	void eliminar(int d){
-		Nodo *pt = raizi;
+	void eliminar(T d){
+		Nodo<T> *pt = raizi;
 		while(pt!=nullptr&&d!=pt->dato)
 			pt = pt->sig;
 		if(pt==nullptr)
@@ -105,7 +107,7 @@ class Lista{
 		else if(raizd==raizi)
 			raizi = raizd = nullptr;
 		else{
-			Nodo *pta = pt->ant,*pts = pt->sig;
+			Nodo<T> *pta = pt->ant,*pts = pt->sig;
 			if(pta==nullptr){
 				raizi = pts;
 				pts->ant = nullptr;
@@ -120,7 +122,7 @@ class Lista{
 	}
 
 	void mostrarI(){
-		Nodo *aux = raizi;
+		Nodo<T> *aux = raizi;
 		cout<< ("raizi -> ");
 		while(aux!=nullptr){
 			cout<<aux->dato<<" -> ";
@@ -130,7 +132,7 @@ class Lista{
 	}
 
 	void mostrarD(){
-		Nodo *aux = raizd;
+		Nodo<T> *aux = raizd;
 		cout<< ("raizd -> ");
 		while(aux!=nullptr){
 			cout<<aux->dato<<" -> ";
@@ -152,7 +154,7 @@ class Lista{
     Lista generaMulti3(){
         Lista resul;
 
-        Nodo aux =>raizi;
+        Nodo<T> aux =>raizi;
 
         MIENTRAS(aux!=NULO){
             resul.addD(REDONDEAR((aux->dato+1)/3.0)*3);
@@ -167,7 +169,7 @@ class Lista{
 	Lista generaMulti3(){
 		Lista resul;
 
-		Nodo *aux = raizi;
+		Nodo<T> *aux = raizi;
 
 		while(aux!=nullptr){
             resul.addD(round((double)(aux->dato+1)/3.0)*3);
@@ -178,7 +180,68 @@ class Lista{
 
 };
 
+class Cordenada{
+public:
+    float x,y;
+    int b;
+
+    Cordenada(float x,float y,int b){
+        this->x = x;
+        this->y = y;
+        this->b = b;
+    }
+
+    void mostrar(){
+//        (x,y,b)
+//        (10.1,1.1,0)
+//
+        cout<<"("<<x<<","<<y<<","<<b<<")";
+    }
+
+    Cordenada(){}
+    ~Cordenada(){}
+protected:
+private:
+};
+
+/**
+//lista es una TDA LIsta doblemente enlazada
+
+ARCHIVO archi = ABRIR_ARCHIVO("DINO.txt","r")
+FLOTANTE x,y
+INTEGER b
+
+MIENTRAS(fscanf(archi,"%f%f%d",&x,&y,&b))INICIO
+    lista.addI(Cordenada(x,y,b))
+END
+
+Nodo aux = lista.raizi
+
+MIENTRAS(aux!=NULO)INICIO
+    aux->dato.mostrar()
+    aux = aux->sig
+END
+*/
+
 int main(int argc,char *argv[],char **env){
+
+    Lista<Cordenada> lista;
+    FILE *archi = fopen("DINO.txt","r");
+    float x,y;
+    int b;
+
+    while(fscanf(archi,"%f%f%d",&x,&y,&b)!=EOF){
+        lista.addI(Cordenada(x,y,b));
+    }
+
+    Nodo<Cordenada> *aux = lista.raizi;
+    cout<< ("raizi -> ");
+    while(aux!=nullptr){
+        aux->dato.mostrar();
+        aux = aux->sig;
+    }
+    cout<<"nullptr"<<endl;
+
 
 //    (11/3) = 3.55
 
@@ -187,8 +250,8 @@ int main(int argc,char *argv[],char **env){
     round (34.53) = 35
     round (4.51) = 5
     */
-
-    Lista l;
+/*
+    Lista<int> l;
 
     l.addD(5);//1
     l.addD(8);
@@ -197,10 +260,10 @@ int main(int argc,char *argv[],char **env){
 
     l.mostrarI();
 
-    Lista resul = l.generaMulti3();
+    Lista<int> resul = l.generaMulti3();
 
     resul.mostrarI();
-
+*/
 /*
     Lista l;
 

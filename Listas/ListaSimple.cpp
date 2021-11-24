@@ -152,6 +152,7 @@ Lista unirListas(Lista l1 ,Lista l2){
 */
 //addFinal(T) : funcion que agrega datos al final de mi lista(listaResul)....
 
+//solucion para unir dos lista ordenadas en una tercera orxenada
 
 template <class T>
 Lista<T> unirListas(Lista<T> l1/*l1 ordenada*/,Lista<T> l2/*l1 ordenada*/){
@@ -179,7 +180,80 @@ Lista<T> unirListas(Lista<T> l1/*l1 ordenada*/,Lista<T> l2/*l1 ordenada*/){
     return listaResul;
 }
 
+
+//dado un conjunto verificar si es subconjunto de otro.
+//ALGORITMO Y ABAJO ESTA EL CODIGO C++
+/**
+BOOLEANO estaEnLaLista(Lista lista,T dato)INICIO
+    Nodo aux = lista.raiz;
+    MIENTRAS(aux!=NULO)INICIO
+        SI(aux->dato==dato)RETORNAR VERDAD;
+        aux = aux->sig;
+    FIN
+    RETORNAR FALSO;
+FIN
+
+BOOLEANO esSubconjunto(Lista lista1,Lista lista2)INICIO
+    Nodo aux = lista2.raiz;
+    MIENTRAS(aux!=NULO)INICIO
+        SI(!estaEnLaLista(lista1,aux->dato))RETORNAR FALSO;
+        aux = aux->sig;
+    FIN
+    RETORNAR VERDAD;
+FIN
+*/
+template<class T>
+bool estaEnLaLista(Lista<T> lista,T dato){
+    Nodo<T> *aux = lista.raiz;
+    while(aux!=nullptr){
+        if(aux->dato==dato)return true;
+        aux = aux->sig;
+    }
+    return false;
+}
+
+template<class T>
+bool esSubconjunto(Lista<T> lista1,Lista<T> lista2){
+    Nodo<T> *aux = lista2.raiz;
+    while(aux!=nullptr){
+        if(!estaEnLaLista(lista1,aux->dato))return false;
+        aux = aux->sig;
+    }
+    return true;
+}
+
+/*
+raiz->1->2->4->6->7->8->10->nullptr
+raiz->11->4->6->7->nullptr
+*/
+
 int main(int argc,char *argv[],char **env){
+
+    Lista<int> l1;
+
+    l1.addFinal(1);
+    l1.addFinal(2);
+    l1.addFinal(4);
+    l1.addFinal(6);
+    l1.addFinal(7);
+    l1.addFinal(8);
+    l1.addFinal(10);
+
+    l1.mostrar();
+
+    Lista<int> l2;
+    l2.addFinal(1);
+    l2.addFinal(4);
+    l2.addFinal(6);
+    l2.addFinal(7);
+    l2.addFinal( 5);
+
+
+    l2.mostrar();
+
+    //iomanip
+
+    cout<<boolalpha<<esSubconjunto(l1,l2)<<endl;
 
     /*
     lista en 1000 segundos
@@ -189,6 +263,7 @@ int main(int argc,char *argv[],char **env){
 
     raiz->1->6->10->nullptr
 */
+/*
     Lista<string> l1;
     Lista<string> l2;
 
@@ -205,7 +280,7 @@ int main(int argc,char *argv[],char **env){
     l2.addFinal("jose");
     l2.addFinal("maria");
     l2.addFinal("zulema");
-
+*/
 /*
     l1.addFinal(1.33321);
     l1.addFinal(4.33321);
@@ -221,11 +296,13 @@ int main(int argc,char *argv[],char **env){
     l2.addFinal(6.33321);
     l2.addFinal(10.33321);
 */
+/*
     l1.mostrar();
     l2.mostrar();
 
     Lista<string> l3 = unirListas(l1,l2);
     l3.mostrar();
+*/
 /*
     Lista l;
 
