@@ -394,20 +394,152 @@ void postOrden_(Nodo<T> *ptr){
         }
     }
 }
+///SOLUCION ... EN CODIGO
+///CONTAR CUANTOS NODOS TIENEN 1 HIJO, DOS HIJOS, TRES HIJOS
+
+    void preOrdenContarHijos(Nodo<T>* r){
+		Pila<Nodo<T>*> pila;
+		Nodo<T>* ptr = r;
+		pila.push(ptr);
+		while(!pila.vacio()){
+			cout<<ptr->dato<<" ";//aqui
+			//llamando a funcio para contar nodos;
+			contarHijos(ptr);
+
+			if(ptr->HijoDer!=nullptr)
+				pila.push(ptr->HijoDer);
+			if(ptr->HijoIzq!=nullptr)
+				ptr = ptr->HijoIzq;
+			else
+				ptr = pila.pop();
+		}
+	}
+
+	void inOrdenContarHijos(Nodo<T>* r){
+		Pila<Nodo<T>*> pila;
+		pila.push(nullptr);
+		Nodo<T>* ptr = r;
+		while(ptr!=nullptr){
+			while(ptr!=nullptr){
+				pila.push(ptr);
+                ptr = ptr->HijoIzq;
+			}
+			ptr = pila.pop();
+			bool tieneDer = false;
+			while(ptr!=nullptr&&!tieneDer){
+				cout<<ptr->dato<<" ";//aqui
+				//llamando a funcio para contar nodos;
+				contarHijos(ptr);
+
+				if(ptr->HijoDer!=nullptr){
+					ptr = ptr->HijoDer;
+					tieneDer = true;
+				}else
+					ptr = pila.pop();
+			}
+		}
+	}
 
 };
+int sinHijos = 0,conUnHijo=0,conDosHijos=0;
+
+void reporte(){
+    cout<<sinHijos<<" : nodos sin hijos"<<endl;
+    cout<<conUnHijo<<" : nodos con UN hijo"<<endl;
+    cout<<conDosHijos<<" : nodos con DOS hijo"<<endl;
+    sinHijos =conUnHijo=conDosHijos=0;
+}
+
+template<class T>
+void contarHijos(Nodo<T>* r){
+    if(r->HijoIzq==nullptr && r->HijoDer==nullptr)sinHijos++;
+    //CON UN HIJO DERECHO                       O           CON UN HIJO IZQUIRDO
+    if(r->HijoIzq==nullptr && r->HijoDer!=nullptr || r->HijoIzq!=nullptr && r->HijoDer==nullptr)conUnHijo++;
+    if(r->HijoIzq!=nullptr && r->HijoDer!=nullptr)conDosHijos++;
+}
+
+///solucion con seudo codigo
+/*
+Integer: sinHijos = 0,conUnHijo=0,conDosHijos=0
+
+Procedimiento reporte()INICIO
+    MOSTRAR <<sinHijos<<" : nodos sin hijos"<<endl
+    MOSTRAR <<conUnHijo<<" : nodos con UN hijo"<<endl
+    MOSTRAR <<conDosHijos<<" : nodos con DOS hijo"<<endl
+    sinHijos =conUnHijo=conDosHijos=0
+FIN
+
+Procedimiento contarHijos(Nodo r)INICIO
+    SI(r->HijoIzq==NULO && r->HijoDer==NULO)sinHijos++
+    //CON UN HIJO DERECHO                       O           CON UN HIJO IZQUIRDO
+    SI(r->HijoIzq==NULO && r->HijoDer!=NULO || r->HijoIzq!=NULO && r->HijoDer==NULO)conUnHijo++
+    SI(r->HijoIzq!=NULO && r->HijoDer!=NULO)conDosHijos++
+FIN
+
+Procedimiento preOrdenContarHijos(Nodo r)INICIO
+		Pila<Nodo> pila
+		Nodo ptr = r
+		pila.push(ptr)
+		MIENTRAS(!pila.vacio())INICIO
+			MOSTRAR <<ptr->dato<<" "//aqui
+			//llamando a funcio para contar nodos
+			contarHijos(ptr)
+
+			SI(ptr->HijoDer!=NULO)
+				pila.push(ptr->HijoDer)
+			SI(ptr->HijoIzq!=NULO)
+				ptr = ptr->HijoIzq
+			CASO_CONTRARIO
+				ptr = pila.pop()
+		FIN
+	FIN
+
+	Procedimiento inOrdenContarHijos(Nodo r)INICIO
+		Pila<Nodo> pila
+		pila.push(NULO)
+		Nodo ptr = r
+		MIENTRAS(ptr!=NULO)INICIO
+			MIENTRAS(ptr!=NULO)INICIO
+				pila.push(ptr)
+                ptr = ptr->HijoIzq
+			FIN
+			ptr = pila.pop()
+			booleano tieneDer = FALSO
+			MIENTRAS(ptr!=NULO&&!tieneDer)INICIO
+				MOSTRAR <<ptr->dato<<" "//aqui
+				//llamando a funcio para contar nodos
+				contarHijos(ptr)
+
+				SI(ptr->HijoDer!=NULO)INICIO
+					ptr = ptr->HijoDer
+					tieneDer = VERDADERO
+				FINCASO_CONTRARIO
+					ptr = pila.pop()
+			FIN
+		FIN
+	FIN
+
+*/
 
 int main(int argc,char *argv[],char **env){
     	Arbol<int> a;
         //10,9,8,17,15,20,18,30,11,19,28,71,51,12,81,13
 		a.agregar(10);
-		a.agregar(9);
-		a.agregar(8);
-		a.agregar(17);
-		a.agregar(15);
-		a.agregar(20);
-		a.agregar(18);
+		a.agregar(3);
+		a.agregar(1);
+		a.agregar(5);
+		a.agregar(25);
 		a.agregar(30);
+
+        puts("INORDEN");
+        a.inOrdenContarHijos(a.raiz);puts("");
+        reporte();
+
+        puts("PREORDEN");
+        a.preOrdenContarHijos(a.raiz);puts("");
+        reporte();
+
+		return 0;
 
 /*
 		a.agregar(11);
